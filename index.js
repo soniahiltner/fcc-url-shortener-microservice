@@ -35,8 +35,8 @@ app.get('/api/hello', function(req, res) {
 app.post('/api/shorturl', (req, res) => {
   let ipaddress = urlParser.parse(req.body.url).hostname;
   dns.lookup(ipaddress, async (err, address, family) => {
-    if (err) {
-      res.json({ error: 'Invalid URL' });
+    if (!address) {
+      res.json({ error: 'invalid url' });
     } else {
       const urls = await URL.find();
       const shortUrl =
